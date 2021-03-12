@@ -1,0 +1,123 @@
+﻿<Window x:Class="Pommodoro.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pommodoro"
+        ResizeMode="NoResize"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="700">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="1" Orientation="Horizontal" Panel.ZIndex="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50">
+
+            <TextBlock x:Name="Horas" Foreground="Orange" TextWrapping="Wrap" FontSize="45"
+                   Text="00" FontFamily="Impact" FontWeight="Regular" VerticalAlignment="Top"/>
+            <TextBlock Foreground="Orange" FontFamily="Impact" FontWeight="Regular" FontSize="45" Text=":" Margin="3,0"></TextBlock>
+            
+            <TextBlock Name="Minutos" Foreground="Orange" TextWrapping="Wrap" FontSize="45" 
+                   Text="00" FontFamily="Impact" FontWeight="Regular"/>
+            <TextBlock Foreground="Orange" FontFamily="Impact" FontWeight="Regular" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="45" Margin="3,0" >:</TextBlock>
+
+            <TextBlock Name="Segundos" Foreground="Orange" TextWrapping="Wrap" FontSize="45" 
+                   Text="00" FontFamily="Impact" FontWeight="Regular" />
+
+        </StackPanel>
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+        </Grid>
+        <Border Grid.Column="0" BorderThickness="1" BorderBrush="#5F699A" Background="#57639A"></Border>
+        <Border Grid.Column="1" BorderThickness="0" Background="#3B4677"></Border>
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1.5*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <StackPanel>
+                <Label Foreground="GhostWhite" FontSize="18" FontWeight="Thin" HorizontalAlignment="Center" Margin="10">Tiempo productivo</Label>
+                <TextBox Name="TiempoProductivoTextBox" Width="150" MaxWidth="150" Height="25" HorizontalAlignment="Center" Margin="10,0"
+                     DataContext="{Binding MinutosProductivos, Mode=TwoWay}"></TextBox>
+
+                <Label Foreground="GhostWhite" FontSize="18" FontWeight="Thin" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">Tiempo descanso</Label>
+                <TextBox Name="TiempoDescansoTextBox" Width="150" MaxWidth="150" Height="25" HorizontalAlignment="Center" Background="#959BBB" BorderBrush="NavajoWhite" Foreground="White"
+                     DataContext="{Binding MinutosDescanso, Mode=TwoWay}"></TextBox>
+            </StackPanel>
+
+            <Label Grid.Row="1" Margin="10,10,0,5" FontWeight="bold" FontFamily="Arial" FontSize="18" Foreground="#959BBB">Modo</Label>
+            
+            <StackPanel Grid.Row="1" Margin="0" Orientation="Horizontal" >
+                
+                <RadioButton GroupName="Modo" Margin="15,0,0,0" Grid.Row="1"  FontSize="15" VerticalContentAlignment="Center" IsChecked="True">Automático</RadioButton>
+                <RadioButton GroupName="Modo" Grid.Row="1" Margin="15,0,0,0" FontSize="15" VerticalContentAlignment="Center" >Manual</RadioButton>
+            </StackPanel>
+
+
+            <Button Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="40" Width="150" Margin="20,0,20,25" Background="AliceBlue" 
+                Click="Comenzar_click">Comenzar</Button>
+
+
+        </Grid>
+
+
+
+        
+        
+
+        
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="4*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            
+            <StackPanel Grid.Row="1" Orientation="Horizontal" Panel.ZIndex="1" >
+                <Button Grid.Row="1" Width="40" Height="40" Margin="20,0,0,0" Background="#59659D">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="20"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Grid.Row="1" Width="40" Height="40" HorizontalAlignment="Left" Margin="20,0,0,0"  Background="#59659D">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="20"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Grid.Row="1" Width="40" Height="40" HorizontalAlignment="Left" Margin="20,0,0,0"  Background="#59659D">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="20"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+                <Button Grid.Row="1" Width="40" Height="40" Margin="150,0,0,0"  Background="#59659D">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="20"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+            <Border Grid.Row="1" BorderBrush="Black" BorderThickness="0" CornerRadius="4" Background="#303A66"></Border>
+            
+
+        </Grid>
+        
+    </Grid>
+</Window>
