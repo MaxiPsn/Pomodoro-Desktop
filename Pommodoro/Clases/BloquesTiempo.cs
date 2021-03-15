@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
-using System.Timers;
 
-namespace Pommodoro.Clases
+namespace Pomodoro.Clases
 {
     enum Estado {Espera,Productivo,Descanso,Pausa};
 
     ///Contiene los pares de tiempo productivo y de descanso, un contador de bloques terminados y las acciones a realizar.
     public class BloquesTiempo
     {
+
         public static int BloquesCumplidos;
         private int tiempoProductivo;
         private int tiempoDescanso;
+        private int estado;
 
         //Propiedades
+
         public bool ProductivoCumplido { get; set; }
         public bool DescansoCumplido { get; set; }
         public int MinutosProductivos
@@ -33,6 +36,19 @@ namespace Pommodoro.Clases
                 tiempoDescanso = value;
             }
         }
+
+        public int EstadoBloque
+        {
+            get { return estado; }
+            set { 
+                if(value >= 0 && value <= 3)
+                { 
+                    estado = value;
+                   
+                }
+            }
+        }
+        
 
         //Constructores
         public BloquesTiempo()
@@ -70,8 +86,6 @@ namespace Pommodoro.Clases
             ProductivoCumplido = false;
             DescansoCumplido = false;
         }
-
-
 
     }
 }

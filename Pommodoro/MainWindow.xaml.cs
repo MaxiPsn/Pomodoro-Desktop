@@ -13,9 +13,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using Pommodoro.Clases;
+using Pomodoro.Clases;
 
-namespace Pommodoro
+namespace Pomodoro
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -28,16 +28,18 @@ namespace Pommodoro
 
         bool ModoAutomatico { get; set; }
 
-        int estadoAplicacion;
-
         public MainWindow()
         {
             InitializeComponent();
 
+            bloque = new BloquesTiempo();
+
+            bloque.EstadoBloque = (int)Clases.Estado.Espera;
+            this.Dispatcher.Invoke(ActualizarLabelEstado);
             //Seteo inicial del temporizador principal
             ModoAutomatico = true;
             temporizador = new Temporizador();
-            bloque = new BloquesTiempo();
+            
             temporizador.SetFunc(TiempoCumplido);
 
 
@@ -48,7 +50,6 @@ namespace Pommodoro
             TemporizadorGrafico.TextBoxMinuto = Minutos;
             TemporizadorGrafico.TextBoxSegundo = Segundos;
 
-            estadoAplicacion = (int)Clases.Estado.Espera;
         }
 
         private void TiempoCumplido()
@@ -69,6 +70,9 @@ namespace Pommodoro
 
                     temporizador.Start();
                     TemporizadorGrafico.StartTemporizador();
+
+                    bloque.EstadoBloque = (int)Clases.Estado.Productivo;
+                    this.Dispatcher.Invoke(ActualizarLabelEstado);
                 }
             }
             else if(bloque.ProductivoCumplido) //Si solo esta cumplido TiempoProductivo se inicia temporizador con TiempoDescanso
@@ -80,6 +84,8 @@ namespace Pommodoro
 
                 temporizador.Start();
                 TemporizadorGrafico.StartTemporizador();
+                bloque.EstadoBloque = (int)Clases.Estado.Descanso;
+                this.Dispatcher.Invoke(ActualizarLabelEstado);
             }
 
         }
@@ -120,7 +126,8 @@ namespace Pommodoro
             
             temporizador.Start();
             TemporizadorGrafico.StartTemporizador();
-            estadoAplicacion = (int)Pommodoro.Clases.Estado.Productivo;
+            bloque.EstadoBloque = (int)Clases.Estado.Productivo;
+            this.Dispatcher.Invoke(ActualizarLabelEstado);
         }
 
         private void RadioButton_Click(object sender, RoutedEventArgs e)
@@ -132,6 +139,27 @@ namespace Pommodoro
             else if(RbManual.IsChecked == true)
             {
                 ModoAutomatico = false;
+            }
+        }
+
+        private void ActualizarLabelEstado()
+        {
+            switch (bloque.EstadoBloque)
+            {
+                case (int)Clases.Estado.Productivo:
+                    Estado.Content = "Tiempo productivo";
+                    Estado.Foreground = this.Resources["Estado_productivo"] as SolidColorBrush;
+                    break;
+                case (int)Clases.Estado.Descanso:
+                    Estado.Content = "Tiempo de descanso";
+                    Estado.Foreground = this.Resources["Estado_descanso"] as SolidColorBrush;
+                    break;
+                case (int)Clases.Estado.Pausa:
+                    Estado.Content = "En pausa";
+                    break;
+                case (int)Clases.Estado.Espera:
+                    Estado.Content = "";
+                    break;
             }
         }
     }

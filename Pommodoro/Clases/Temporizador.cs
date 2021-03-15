@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Timers;
 
-namespace Pommodoro.Clases
+namespace Pomodoro.Clases
 {
     public class Temporizador
     {

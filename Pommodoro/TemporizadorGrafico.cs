@@ -5,7 +5,7 @@ using System.Windows.Threading;
 using System.Windows.Controls;
 
 
-namespace Pommodoro
+namespace Pomodoro
 {
     /// <summary>
     /// Actualiza texto de elementos graficos cada 1 segundo.
