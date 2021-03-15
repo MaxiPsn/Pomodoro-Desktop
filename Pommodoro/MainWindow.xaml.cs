@@ -25,11 +25,14 @@ namespace Pommodoro
         BloquesTiempo bloque;
         Temporizador temporizador;
         TemporizadorGrafico TemporizadorGrafico;
+
         bool ModoAutomatico { get; set; }
+
+        int estadoAplicacion;
+
         public MainWindow()
         {
             InitializeComponent();
-            
 
             //Seteo inicial del temporizador principal
             ModoAutomatico = true;
@@ -45,7 +48,7 @@ namespace Pommodoro
             TemporizadorGrafico.TextBoxMinuto = Minutos;
             TemporizadorGrafico.TextBoxSegundo = Segundos;
 
-
+            estadoAplicacion = (int)Clases.Estado.Espera;
         }
 
         private void TiempoCumplido()
@@ -56,7 +59,7 @@ namespace Pommodoro
             if (bloque.ProductivoCumplido && bloque.DescansoCumplido) 
             {
                 bloque.ResetBloque();
-                MessageBox.Show("Tiempo de descanso cumplido");
+                
                 if (ModoAutomatico)
                 {                    
                     temporizador.Minutos = bloque.MinutosProductivos;
@@ -70,7 +73,6 @@ namespace Pommodoro
             }
             else if(bloque.ProductivoCumplido) //Si solo esta cumplido TiempoProductivo se inicia temporizador con TiempoDescanso
             {
-                MessageBox.Show("Tiempo productivo cumplido");
                 temporizador.Minutos = bloque.MinutosDescanso;
 
                 if (bloque.MinutosDescanso > 60) { TemporizadorGrafico.Hora = (int)Math.Floor((decimal)(bloque.MinutosDescanso / 60)); }
@@ -82,6 +84,7 @@ namespace Pommodoro
 
         }
 
+        //Inicia los temporizadores con los valores introducidos en los campos de texto.
         private void Comenzar_click(object sender, RoutedEventArgs e)
         {
             bloque.ResetBloque();
@@ -105,7 +108,6 @@ namespace Pommodoro
                 TemporizadorGrafico.Minuto = bloque.MinutosDescanso % 60;
             }
 
-            //MessageBox.Show("prod " + bloque.MinutosProductivos + " descanso " + bloque.MinutosDescanso);
             //Setup temporizador
             if(!bloque.ProductivoCumplido)
             {
@@ -118,7 +120,19 @@ namespace Pommodoro
             
             temporizador.Start();
             TemporizadorGrafico.StartTemporizador();
+            estadoAplicacion = (int)Pommodoro.Clases.Estado.Productivo;
         }
 
+        private void RadioButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (RbAuto.IsChecked == true)
+            {
+                ModoAutomatico = true;
+            }
+            else if(RbManual.IsChecked == true)
+            {
+                ModoAutomatico = false;
+            }
+        }
     }
 }

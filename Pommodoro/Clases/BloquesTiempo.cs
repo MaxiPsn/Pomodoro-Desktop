@@ -5,6 +5,8 @@ using System.Timers;
 
 namespace Pommodoro.Clases
 {
+    enum Estado {Espera,Productivo,Descanso,Pausa};
+
     ///Contiene los pares de tiempo productivo y de descanso, un contador de bloques terminados y las acciones a realizar.
     public class BloquesTiempo
     {

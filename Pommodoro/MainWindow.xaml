@@ -7,6 +7,7 @@
         ResizeMode="NoResize"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="700">
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -27,6 +28,10 @@
 
         </StackPanel>
 
+        <Label Name="Estado" Grid.Column="1" Content="En tiempo productivo" Panel.ZIndex="1" VerticalAlignment="Center" HorizontalAlignment="Center"
+               Visibility="Visible" FontSize="25" FontFamily="Yu Gothic UI" FontWeight="Normal" Foreground="#6DADB0" Margin="0,0,0,20" ></Label>
+        <!--Color descanso: #A1C35C-->
+        <!--Color Productivo: #6DADB0-->
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
@@ -51,16 +56,16 @@
                      DataContext="{Binding MinutosProductivos, Mode=TwoWay}"></TextBox>
 
                 <Label Foreground="GhostWhite" FontSize="18" FontWeight="Thin" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">Tiempo descanso</Label>
-                <TextBox Name="TiempoDescansoTextBox" Width="150" MaxWidth="150" Height="25" HorizontalAlignment="Center" Background="#959BBB" BorderBrush="NavajoWhite" Foreground="White"
+                <TextBox Name="TiempoDescansoTextBox" Width="150" MaxWidth="150" Height="25" HorizontalAlignment="Center"
                      DataContext="{Binding MinutosDescanso, Mode=TwoWay}"></TextBox>
             </StackPanel>
 
-            <Label Grid.Row="1" Margin="10,10,0,5" FontWeight="bold" FontFamily="Arial" FontSize="18" Foreground="#959BBB">Modo</Label>
-            
-            <StackPanel Grid.Row="1" Margin="0" Orientation="Horizontal" >
-                
-                <RadioButton GroupName="Modo" Margin="15,0,0,0" Grid.Row="1"  FontSize="15" VerticalContentAlignment="Center" IsChecked="True">Automático</RadioButton>
-                <RadioButton GroupName="Modo" Grid.Row="1" Margin="15,0,0,0" FontSize="15" VerticalContentAlignment="Center" >Manual</RadioButton>
+
+            <StackPanel Grid.Row="1" Margin="20,0" Orientation="Vertical">
+                <Label Grid.Row="1" Margin="10,10,0,5" FontWeight="bold" FontFamily="Arial" FontSize="18" Foreground="#959BBB">Modo</Label>
+
+                <RadioButton Name="RbAuto" Margin="15,0,0,0" FontSize="15" VerticalContentAlignment="Center" IsChecked="True" Click="RadioButton_Click">Automático</RadioButton>
+                <RadioButton Name="RbManual" Margin="15,5,0,0" FontSize="15" VerticalContentAlignment="Center" Click="RadioButton_Click" >Manual</RadioButton>
             </StackPanel>
 
 
@@ -69,13 +74,6 @@
 
 
         </Grid>
-
-
-
-        
-        
-
-        
 
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
@@ -106,7 +104,7 @@
                     </Button.Resources>
                 </Button>
 
-                <Button Grid.Row="1" Width="40" Height="40" Margin="150,0,0,0"  Background="#59659D">
+                <Button Grid.Row="1" Width="40" Height="40" Margin="200,0,0,0"  Background="#59659D">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="20"/>
