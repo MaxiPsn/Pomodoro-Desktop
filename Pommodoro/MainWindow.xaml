@@ -4,14 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pomodoro"
-        ResizeMode="NoResize"
         mc:Ignorable="d"
         Title="Pomodoro" Height="450" Width="700">
     <Window.Resources>
         <SolidColorBrush x:Key="Estado_descanso" Color="#A1C35C" />
         <SolidColorBrush x:Key="Estado_productivo" Color="#6DADB0" />
     </Window.Resources>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -22,7 +21,7 @@
             <TextBlock x:Name="Horas" Foreground="Orange" TextWrapping="Wrap" FontSize="45"
                    Text="00" FontFamily="Impact" FontWeight="Regular" VerticalAlignment="Top"/>
             <TextBlock Foreground="Orange" FontFamily="Impact" FontWeight="Regular" FontSize="45" Text=":" Margin="3,0"></TextBlock>
-            
+
             <TextBlock Name="Minutos" Foreground="Orange" TextWrapping="Wrap" FontSize="45" 
                    Text="00" FontFamily="Impact" FontWeight="Regular"/>
             <TextBlock Foreground="Orange" FontFamily="Impact" FontWeight="Regular" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="45" Margin="3,0" >:</TextBlock>
@@ -54,15 +53,31 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <StackPanel>
-                <Label Foreground="GhostWhite" FontSize="18" FontWeight="Thin" HorizontalAlignment="Center" Margin="10">Tiempo productivo</Label>
-                <TextBox Name="TiempoProductivoTextBox" Width="150" MaxWidth="150" Height="25" HorizontalAlignment="Center" Margin="10,0"
-                     DataContext="{Binding MinutosProductivos, Mode=TwoWay}"></TextBox>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
 
-                <Label Foreground="GhostWhite" FontSize="18" FontWeight="Thin" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">Tiempo descanso</Label>
-                <TextBox Name="TiempoDescansoTextBox" Width="150" MaxWidth="150" Height="25" HorizontalAlignment="Center"
-                     DataContext="{Binding MinutosDescanso, Mode=TwoWay}"></TextBox>
-            </StackPanel>
+                <Label Grid.Row="0" Foreground="GhostWhite" FontSize="18" FontWeight="Thin" HorizontalAlignment="Center" VerticalAlignment="Center" >Tiempo productivo</Label>
+                <TextBox Grid.Row="1" Name="TiempoProductivohTextBox" Width="50" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,60,0"
+                PreviewTextInput="TextBoxPreviewInput" MaxLength="2" >
+                </TextBox>
+                <TextBox Grid.Row="1" Name="TiempoProductivomTextBox" Width="50" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="60,0,0,0"
+                         PreviewTextInput="TextBoxPreviewInput" MaxLength="2">
+
+                </TextBox>
+
+
+
+                <Label Grid.Row="2" Foreground="GhostWhite" FontSize="18" FontWeight="Thin" HorizontalAlignment="Center" VerticalAlignment="Center"  >Tiempo descanso</Label>
+                <TextBox Grid.Row="3" Name="TiempoDescansohTextBox" Width="50" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,60,0"
+                         PreviewTextInput="TextBoxPreviewInput" MaxLength="2"></TextBox>
+                <TextBox Grid.Row="3" Name="TiempoDescansomTextBox" Width="50" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="60,0,0,0"
+                     PreviewTextInput="TextBoxPreviewInput" MaxLength="2"></TextBox>
+            </Grid>
 
 
             <StackPanel Grid.Row="1" Margin="20,0" Orientation="Vertical">
@@ -84,7 +99,7 @@
                 <RowDefinition Height="4*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            
+
             <StackPanel Grid.Row="1" Orientation="Horizontal" Panel.ZIndex="1" >
                 <Button Grid.Row="1" Width="40" Height="40" Margin="20,0,0,0" Background="#59659D">
                     <Button.Resources>
@@ -117,9 +132,9 @@
                 </Button>
             </StackPanel>
             <Border Grid.Row="1" BorderBrush="Black" BorderThickness="0" CornerRadius="4" Background="#303A66"></Border>
-            
+
 
         </Grid>
-        
+
     </Grid>
 </Window>

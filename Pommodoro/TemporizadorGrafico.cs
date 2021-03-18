@@ -72,7 +72,10 @@ namespace Pomodoro
         
         public void StartTemporizador()
         {
-            timer.Start();   
+            SetSegundoTextBoxTxt();
+            SetMinutoTextBoxTxt();
+            SetHoraTextBoxTxt();
+            timer.Start();
         }
         public void StopTemporizador()
         {
@@ -105,7 +108,7 @@ namespace Pomodoro
                 SetMinutoTextBoxTxt();
                 SetSegundoTextBoxTxt();    
             }
-            else if(segundo == 0 && minuto == 0)
+            else if(segundo == 0 && minuto == 0 && hora >= 1)
             {
                 hora--;
                 minuto = 59;

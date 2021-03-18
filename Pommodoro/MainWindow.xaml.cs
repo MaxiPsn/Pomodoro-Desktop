@@ -22,6 +22,8 @@ namespace Pomodoro
     /// </summary>
     public partial class MainWindow : Window
     {
+        //TODO : Cambiar textblocks para configurar tiempo para que solo reciban numeros y dividirlos en uno para hora y otro para minutos.
+        
         BloquesTiempo bloque;
         Temporizador temporizador;
         TemporizadorGrafico TemporizadorGrafico;
@@ -97,20 +99,24 @@ namespace Pomodoro
             if (temporizador.timer.Enabled) { temporizador.Stop(); }
             if (TemporizadorGrafico.IsEnabled()) { TemporizadorGrafico.StopTemporizador(); }
             
-
-            bloque.MinutosProductivos = Int32.Parse(TiempoProductivoTextBox.Text);
-            bloque.MinutosDescanso = Int32.Parse(TiempoDescansoTextBox.Text);
-
+            bloque.MinutosProductivos = Int32.Parse(TiempoProductivohTextBox.Text) * 60 + Int32.Parse(TiempoProductivomTextBox.Text);
+           
+            bloque.MinutosDescanso = Int32.Parse(TiempoDescansohTextBox.Text) * 60 + Int32.Parse(TiempoDescansomTextBox.Text);
+            
 
             //Setup hora temporizador grafico
             if (!bloque.ProductivoCumplido)
             {
-                if (bloque.MinutosProductivos > 60) { TemporizadorGrafico.Hora = (int)Math.Floor((decimal)(bloque.MinutosProductivos / 60)); }
+                if (bloque.MinutosProductivos >= 60) { TemporizadorGrafico.Hora = (int)Math.Floor((decimal)(bloque.MinutosProductivos / 60)); }
+                else { TemporizadorGrafico.Hora = 0; }
+
                 TemporizadorGrafico.Minuto = bloque.MinutosProductivos % 60;
             }
             else
             {
-                if (bloque.MinutosDescanso > 60) { TemporizadorGrafico.Hora = (int)Math.Floor((decimal)(bloque.MinutosDescanso / 60)); }
+                if (bloque.MinutosDescanso >= 60) { TemporizadorGrafico.Hora = (int)Math.Floor((decimal)(bloque.MinutosDescanso / 60)); }
+                else { TemporizadorGrafico.Hora = 0; }
+
                 TemporizadorGrafico.Minuto = bloque.MinutosDescanso % 60;
             }
 
@@ -161,6 +167,18 @@ namespace Pomodoro
                     Estado.Content = "";
                     break;
             }
+        }
+
+        private void TextBoxPreviewInput(object sender, TextCompositionEventArgs e)
+        {
+            TextBox s = sender as TextBox;
+            if (e.Text.Length > 2) e.Handled = false;
+
+            int c = Convert.ToInt32(Convert.ToChar(e.Text));
+
+            if (c >= 48 && c <= 57) e.Handled = false;
+
+            else e.Handled = true;
         }
     }
 }
