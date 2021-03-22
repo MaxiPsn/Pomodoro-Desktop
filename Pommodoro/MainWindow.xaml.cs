@@ -71,7 +71,7 @@ namespace Pomodoro
                     TemporizadorGrafico.Minuto = bloque.MinutosProductivos % 60;
 
                     temporizador.Start();
-                    TemporizadorGrafico.StartTemporizador();
+                    this.Dispatcher.Invoke(TemporizadorGrafico.StartTemporizador);
 
                     bloque.EstadoBloque = (int)Clases.Estado.Productivo;
                     this.Dispatcher.Invoke(ActualizarLabelEstado);
@@ -85,7 +85,7 @@ namespace Pomodoro
                 TemporizadorGrafico.Minuto = bloque.MinutosDescanso % 60;
 
                 temporizador.Start();
-                TemporizadorGrafico.StartTemporizador();
+                this.Dispatcher.Invoke(TemporizadorGrafico.StartTemporizador);
                 bloque.EstadoBloque = (int)Clases.Estado.Descanso;
                 this.Dispatcher.Invoke(ActualizarLabelEstado);
             }
@@ -180,5 +180,6 @@ namespace Pomodoro
 
             else e.Handled = true;
         }
+
     }
 }

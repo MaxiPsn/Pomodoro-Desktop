@@ -13,7 +13,7 @@ namespace Pomodoro
     public class TemporizadorGrafico
     {
         private DispatcherTimer timer;
-
+        
         private protected TextBlock tbHora;
         private protected TextBlock tbMinuto;
         private protected TextBlock tbSegundo;
@@ -65,6 +65,7 @@ namespace Pomodoro
             hora = 0;
             minuto = 0;
             segundo = 0;
+            
         }
 
 
@@ -75,7 +76,9 @@ namespace Pomodoro
             SetSegundoTextBoxTxt();
             SetMinutoTextBoxTxt();
             SetHoraTextBoxTxt();
+            
             timer.Start();
+            
         }
         public void StopTemporizador()
         {
@@ -91,14 +94,11 @@ namespace Pomodoro
         //Metodos privados
         private void Timer_tick(object sender, EventArgs e)
         {
-            
-
             if(segundo > 0)
             {
                 segundo--;
-                if (segundo == 0 && minuto == 0 && hora == 0) StopTemporizador();
-
                 SetSegundoTextBoxTxt();
+                if (segundo < 0 && minuto == 0 && hora == 0) StopTemporizador();
             }
             else if(segundo == 0 && minuto > 0)
             {
