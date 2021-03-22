@@ -20,7 +20,13 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="2*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="1" Orientation="Horizontal" Panel.ZIndex="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50">
+
+        <Label Name="Estado" Grid.Column="1" Panel.ZIndex="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="10,30,0,0"
+               Visibility="Visible" FontSize="25" FontFamily="Yu Gothic UI" FontWeight="DemiBold" Foreground="#6DADB0" ></Label>
+        <!--Color descanso: #A1C35C-->
+        <!--Color Productivo: #6DADB0-->
+
+        <StackPanel Grid.Column="1" Orientation="Horizontal" Panel.ZIndex="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,80,0,0">
 
             <TextBlock x:Name="Horas" Foreground="Orange" TextWrapping="Wrap" FontSize="45"
                    Text="00" FontFamily="Impact" FontWeight="Regular" VerticalAlignment="Top"/>
@@ -34,11 +40,9 @@
                    Text="00" FontFamily="Impact" FontWeight="Regular" />
 
         </StackPanel>
+        <Label Panel.ZIndex="1" Grid.Column="1" Name="Contador"  Content="{Binding BloquesCumplidos, Mode=OneWay}" ></Label>
 
-        <Label Name="Estado" Grid.Column="1" Panel.ZIndex="1" VerticalAlignment="Center" HorizontalAlignment="Center"
-               Visibility="Visible" FontSize="25" FontFamily="Yu Gothic UI" FontWeight="Normal" Foreground="#6DADB0" Margin="0,0,0,20"></Label>
-        <!--Color descanso: #A1C35C-->
-        <!--Color Productivo: #6DADB0-->
+
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
@@ -47,8 +51,8 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
         </Grid>
-        <Border Grid.Column="0" BorderThickness="1" BorderBrush="#5F699A" Background="#57639A"></Border>
-        <Border Grid.Column="1" BorderThickness="0" Background="#3B4677"></Border>
+        <Border Grid.Column="0" BorderThickness="0" Background="#57639A" CornerRadius="0"></Border>
+        <Border Grid.Column="1" BorderThickness="1" BorderBrush="#5F699A" Background="#3B4677" CornerRadius="0"></Border>
 
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
@@ -67,7 +71,7 @@
                 <Border Grid.Row="1" Background="#4E598D"></Border>
 
                 <Label Grid.Row="0" Foreground="GhostWhite" FontSize="18" FontWeight="Light" HorizontalAlignment="Center" VerticalAlignment="Center" >Tiempo productivo</Label>
-                <TextBox Grid.Row="1" Name="TiempoProductivomTextBox" Width="50" Height="25" VerticalContentAlignment="Center" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="50,0,0,10"
+                <TextBox Grid.Row="1" Name="TiempoProductivomTextBox" Width="50" Height="25" VerticalContentAlignment="Center" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="45,0,0,10"
                          HorizontalContentAlignment="Center" Foreground="WhiteSmoke"  MaxLength="4" Background="#3D487C" BorderBrush="#101A47"
                          PreviewTextInput="TextBoxPreviewInput" KeyUp="TextBoxTiempo_KeyUp">
                     <TextBox.Resources>
@@ -75,15 +79,22 @@
                             <Setter Property="CornerRadius" Value="6"/>
                         </Style>
                     </TextBox.Resources>
+                    
                 </TextBox>
-                <Label Name="PreviewLblTiempoProd" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,10" Foreground="#A1A5BA" FontWeight="Bold"></Label>
-                <Label Grid.Row="1" HorizontalAlignment="Center" Foreground="#B3B8D0" VerticalAlignment="Top">Tiempo productivo (en minutos)</Label>
-
+                <Image Grid.Row="1" Source="/relojfp.png" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,0,0,13"></Image>
+                <Label Name="PreviewLblTiempoProd" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,50,10" Foreground="#A1A5BA" FontWeight="Bold"></Label>
+                <Label Grid.Row="1" HorizontalAlignment="Left" Foreground="#B3B8D0" VerticalAlignment="Top" Margin="10,0,0,0">Minutos productivos</Label>
+                <Label Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,40,0" Foreground="#B3B8D0">Horas/min</Label>
 
                 <Border Grid.Row="3" Background="#4E598D"></Border>
 
                 <Label Grid.Row="2" Foreground="GhostWhite" FontSize="18" FontWeight="Light" HorizontalAlignment="Center" VerticalAlignment="Center"  >Tiempo descanso</Label>
-                <TextBox Grid.Row="3" Name="TiempoDescansomTextBox" Width="50" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="50,0,0,10" 
+                <Label Grid.Row="3" HorizontalAlignment="Left" Foreground="#B3B8D0" VerticalAlignment="Top" Margin="10,0,0,0" >Minutos de descanso</Label>
+
+                <Label Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,40,0" Foreground="#B3B8D0">Horas/min</Label>
+                <Image Grid.Row="3" Source="/relojfp.png" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,0,0,13"></Image>
+
+                <TextBox Grid.Row="3" Name="TiempoDescansomTextBox" Width="50" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="45,0,0,10" 
                      VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="WhiteSmoke" PreviewTextInput="TextBoxPreviewInput" MaxLength="4" 
                       Background="#3D487C" BorderBrush="#101A47" KeyUp="TextBoxTiempo_KeyUp">
                     <TextBox.Resources>
@@ -92,13 +103,13 @@
                         </Style>
                     </TextBox.Resources>
                 </TextBox>
-                <Label Name="PreviewLblTiempoDesc" Grid.Row="3" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,10" Foreground="#A1A5BA" FontWeight="Bold"></Label>
-                <Label Grid.Row="3" HorizontalAlignment="Center" Foreground="#B3B8D0" VerticalAlignment="Top">Tiempo de descanso (en minutos)</Label>
-                
+                <Label Name="PreviewLblTiempoDesc" Grid.Row="3" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,50,10" 
+                       Foreground="#A1A5BA" FontWeight="Bold"></Label>
+
             </Grid>
 
 
-            <StackPanel Grid.Row="1" Margin="20,0" Orientation="Vertical">
+            <StackPanel Grid.Row="1" Margin="20,10" Orientation="Vertical">
                 <Label Grid.Row="1" Margin="10,10,0,5" FontWeight="bold" FontFamily="Arial" FontSize="18" Foreground="#959BBB">Modo</Label>
 
                 <RadioButton Name="RbAuto" Margin="15,0,0,0" FontSize="15" VerticalContentAlignment="Center" IsChecked="True" Click="RadioButton_Click">Automático</RadioButton>

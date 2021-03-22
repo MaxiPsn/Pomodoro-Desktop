@@ -6,4 +6,12 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="relojfp.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="relojfp.png" />
+  </ItemGroup>
+
 </Project>

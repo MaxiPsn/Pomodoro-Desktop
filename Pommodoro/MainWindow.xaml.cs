@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,9 +22,7 @@ namespace Pomodoro
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
-    {
-        //TODO : Cambiar textblocks para configurar tiempo para que solo reciban numeros y dividirlos en uno para hora y otro para minutos.
-        
+    {        
         BloquesTiempo bloque;
         Temporizador temporizador;
         TemporizadorGrafico TemporizadorGrafico;
@@ -38,12 +37,12 @@ namespace Pomodoro
 
             bloque.EstadoBloque = (int)Clases.Estado.Espera;
             this.Dispatcher.Invoke(ActualizarLabelEstado);
+
             //Seteo inicial del temporizador principal
             ModoAutomatico = true;
             temporizador = new Temporizador();
             
             temporizador.SetFunc(TiempoCumplido);
-
 
             //Seteo de propiedades del temporizador grafico
             TemporizadorGrafico = new TemporizadorGrafico();
@@ -51,6 +50,8 @@ namespace Pomodoro
             TemporizadorGrafico.TextBoxHora = Horas;
             TemporizadorGrafico.TextBoxMinuto = Minutos;
             TemporizadorGrafico.TextBoxSegundo = Segundos;
+
+            Contador.DataContext = bloque;
 
         }
 
@@ -91,6 +92,31 @@ namespace Pomodoro
             }
 
         }
+
+        private void ActualizarLabelEstado()
+        {
+            switch (bloque.EstadoBloque)
+            {
+                case (int)Clases.Estado.Productivo:
+                    Estado.Content = "Tiempo productivo";
+                    Estado.Foreground = this.Resources["Estado_productivo"] as SolidColorBrush;
+                    break;
+                case (int)Clases.Estado.Descanso:
+                    Estado.Content = "Tiempo de descanso";
+                    Estado.Foreground = this.Resources["Estado_descanso"] as SolidColorBrush;
+                    break;
+                case (int)Clases.Estado.Pausa:
+                    Estado.Content = "En pausa";
+                    break;
+                case (int)Clases.Estado.Espera:
+                    Estado.Content = "";
+                    break;
+            }
+        }
+
+
+            //-----------------Eventos ui-------------------//
+
 
         //Inicia los temporizadores con los valores introducidos en los campos de texto.
         private void Comenzar_click(object sender, RoutedEventArgs e)
@@ -146,27 +172,6 @@ namespace Pomodoro
             else if(RbManual.IsChecked == true)
             {
                 ModoAutomatico = false;
-            }
-        }
-
-        private void ActualizarLabelEstado()
-        {
-            switch (bloque.EstadoBloque)
-            {
-                case (int)Clases.Estado.Productivo:
-                    Estado.Content = "Tiempo productivo";
-                    Estado.Foreground = this.Resources["Estado_productivo"] as SolidColorBrush;
-                    break;
-                case (int)Clases.Estado.Descanso:
-                    Estado.Content = "Tiempo de descanso";
-                    Estado.Foreground = this.Resources["Estado_descanso"] as SolidColorBrush;
-                    break;
-                case (int)Clases.Estado.Pausa:
-                    Estado.Content = "En pausa";
-                    break;
-                case (int)Clases.Estado.Espera:
-                    Estado.Content = "";
-                    break;
             }
         }
 
