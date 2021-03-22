@@ -5,10 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pomodoro"
         mc:Ignorable="d"
-        Title="Pomodoro" Height="450" Width="700">
+        Title="Pomodoro" Height="500" Width="800">
     <Window.Resources>
         <SolidColorBrush x:Key="Estado_descanso" Color="#A1C35C" />
         <SolidColorBrush x:Key="Estado_productivo" Color="#6DADB0" />
+        <Style x:Name="BordeRedondeado" TargetType="{x:Type Border}">
+            <Setter Property="CornerRadius" Value="6"/>
+        </Style>
+
     </Window.Resources>
 
     <Grid>
@@ -48,7 +52,7 @@
 
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="1.5*"></RowDefinition>
+                <RowDefinition Height="2*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
@@ -56,27 +60,41 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="1.5*"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="1.5*"></RowDefinition>
                 </Grid.RowDefinitions>
+                <Border Grid.Row="1" Background="#4E598D"></Border>
 
-                <Label Grid.Row="0" Foreground="GhostWhite" FontSize="18" FontWeight="Thin" HorizontalAlignment="Center" VerticalAlignment="Center" >Tiempo productivo</Label>
-                <TextBox Grid.Row="1" Name="TiempoProductivohTextBox" Width="50" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,60,0"
-                PreviewTextInput="TextBoxPreviewInput" MaxLength="2" >
+                <Label Grid.Row="0" Foreground="GhostWhite" FontSize="18" FontWeight="Light" HorizontalAlignment="Center" VerticalAlignment="Center" >Tiempo productivo</Label>
+                <TextBox Grid.Row="1" Name="TiempoProductivomTextBox" Width="50" Height="25" VerticalContentAlignment="Center" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="50,0,0,10"
+                         HorizontalContentAlignment="Center" Foreground="WhiteSmoke"  MaxLength="4" Background="#3D487C" BorderBrush="#101A47"
+                         PreviewTextInput="TextBoxPreviewInput" KeyUp="TextBoxTiempo_KeyUp">
+                    <TextBox.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="6"/>
+                        </Style>
+                    </TextBox.Resources>
                 </TextBox>
-                <TextBox Grid.Row="1" Name="TiempoProductivomTextBox" Width="50" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="60,0,0,0"
-                         PreviewTextInput="TextBoxPreviewInput" MaxLength="2">
+                <Label Name="PreviewLblTiempoProd" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,10" Foreground="#A1A5BA" FontWeight="Bold"></Label>
+                <Label Grid.Row="1" HorizontalAlignment="Center" Foreground="#B3B8D0" VerticalAlignment="Top">Tiempo productivo (en minutos)</Label>
 
+
+                <Border Grid.Row="3" Background="#4E598D"></Border>
+
+                <Label Grid.Row="2" Foreground="GhostWhite" FontSize="18" FontWeight="Light" HorizontalAlignment="Center" VerticalAlignment="Center"  >Tiempo descanso</Label>
+                <TextBox Grid.Row="3" Name="TiempoDescansomTextBox" Width="50" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="50,0,0,10" 
+                     VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="WhiteSmoke" PreviewTextInput="TextBoxPreviewInput" MaxLength="4" 
+                      Background="#3D487C" BorderBrush="#101A47" KeyUp="TextBoxTiempo_KeyUp">
+                    <TextBox.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="6"/>
+                        </Style>
+                    </TextBox.Resources>
                 </TextBox>
-
-
-
-                <Label Grid.Row="2" Foreground="GhostWhite" FontSize="18" FontWeight="Thin" HorizontalAlignment="Center" VerticalAlignment="Center"  >Tiempo descanso</Label>
-                <TextBox Grid.Row="3" Name="TiempoDescansohTextBox" Width="50" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,60,0"
-                         PreviewTextInput="TextBoxPreviewInput" MaxLength="2"></TextBox>
-                <TextBox Grid.Row="3" Name="TiempoDescansomTextBox" Width="50" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="60,0,0,0"
-                     PreviewTextInput="TextBoxPreviewInput" MaxLength="2"></TextBox>
+                <Label Name="PreviewLblTiempoDesc" Grid.Row="3" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,10" Foreground="#A1A5BA" FontWeight="Bold"></Label>
+                <Label Grid.Row="3" HorizontalAlignment="Center" Foreground="#B3B8D0" VerticalAlignment="Top">Tiempo de descanso (en minutos)</Label>
+                
             </Grid>
 
 
@@ -100,22 +118,22 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="1" Orientation="Horizontal" Panel.ZIndex="1" >
-                <Button Grid.Row="1" Width="40" Height="40" Margin="20,0,0,0" Background="#59659D">
+            <Grid Grid.Row="1" Panel.ZIndex="1">
+                <Button Width="40" Height="40" Margin="30,0,0,0" Background="#59659D" HorizontalAlignment="Left">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="20"/>
                         </Style>
                     </Button.Resources>
                 </Button>
-                <Button Grid.Row="1" Width="40" Height="40" HorizontalAlignment="Left" Margin="20,0,0,0"  Background="#59659D">
+                <Button Width="40" Height="40" HorizontalAlignment="Left" Margin="100,0,0,0"  Background="#59659D">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="20"/>
                         </Style>
                     </Button.Resources>
                 </Button>
-                <Button Grid.Row="1" Width="40" Height="40" HorizontalAlignment="Left" Margin="20,0,0,0"  Background="#59659D">
+                <Button Grid.Row="1" Width="40" Height="40" HorizontalAlignment="Left" Margin="170,0,0,0"  Background="#59659D">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="20"/>
@@ -123,14 +141,14 @@
                     </Button.Resources>
                 </Button>
 
-                <Button Grid.Row="1" Width="40" Height="40" Margin="200,0,0,0"  Background="#59659D">
+                <Button Grid.Row="1" Width="40" Height="40" Margin="0,0,50,0"  Background="#59659D" HorizontalAlignment="Right">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="20"/>
                         </Style>
                     </Button.Resources>
                 </Button>
-            </StackPanel>
+            </Grid>
             <Border Grid.Row="1" BorderBrush="Black" BorderThickness="0" CornerRadius="4" Background="#303A66"></Border>
 
 

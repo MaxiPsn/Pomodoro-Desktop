@@ -99,9 +99,9 @@ namespace Pomodoro
             if (temporizador.timer.Enabled) { temporizador.Stop(); }
             if (TemporizadorGrafico.IsEnabled()) { TemporizadorGrafico.StopTemporizador(); }
             
-            bloque.MinutosProductivos = Int32.Parse(TiempoProductivohTextBox.Text) * 60 + Int32.Parse(TiempoProductivomTextBox.Text);
+            bloque.MinutosProductivos = Int32.Parse(TiempoProductivomTextBox.Text);
            
-            bloque.MinutosDescanso = Int32.Parse(TiempoDescansohTextBox.Text) * 60 + Int32.Parse(TiempoDescansomTextBox.Text);
+            bloque.MinutosDescanso = Int32.Parse(TiempoDescansomTextBox.Text);
             
 
             //Setup hora temporizador grafico
@@ -129,7 +129,8 @@ namespace Pomodoro
             {
                 temporizador.Minutos = bloque.MinutosDescanso;
             }
-            
+
+            (sender as Button).IsEnabled = false;
             temporizador.Start();
             TemporizadorGrafico.StartTemporizador();
             bloque.EstadoBloque = (int)Clases.Estado.Productivo;
@@ -171,9 +172,7 @@ namespace Pomodoro
 
         private void TextBoxPreviewInput(object sender, TextCompositionEventArgs e)
         {
-            TextBox s = sender as TextBox;
-            if (e.Text.Length > 2) e.Handled = false;
-
+            
             int c = Convert.ToInt32(Convert.ToChar(e.Text));
 
             if (c >= 48 && c <= 57) e.Handled = false;
@@ -181,5 +180,47 @@ namespace Pomodoro
             else e.Handled = true;
         }
 
+        //Actualiza los labels que previsualizan el ajuste de tiempo de los textbox de input para descanso y productivo. 
+        private void TextBoxTiempo_KeyUp(object sender, KeyEventArgs e)
+        {
+            TextBox tx = sender as TextBox;
+
+            if(tx.Text.Length == 0)
+            {
+                if (tx.Name.Equals("TiempoProductivomTextBox"))
+                {
+                    PreviewLblTiempoProd.Content = "";
+                }
+                else if (tx.Name.Equals("TiempoDescansomTextBox"))
+                {
+                    PreviewLblTiempoDesc.Content = "";
+                }
+
+            }
+            else
+            {
+                int mins = Int32.Parse(tx.Text);
+                string contenido = "";
+                int h = (int)Math.Floor((decimal)(mins / 60));
+
+                if (h < 10) { contenido = "0" + h.ToString(); }
+                else { contenido = h.ToString(); }
+
+                if (mins % 60 < 10) { contenido += ":0" + mins % 60; }
+                else { contenido += ":" + mins % 60; }
+
+                if (tx.Name.Equals("TiempoProductivomTextBox"))
+                {
+                    PreviewLblTiempoProd.Content = contenido;
+                }
+                else if (tx.Name.Equals("TiempoDescansomTextBox"))
+                {
+                    PreviewLblTiempoDesc.Content = contenido;
+                }
+
+            }
+
+
+        }
     }
 }
