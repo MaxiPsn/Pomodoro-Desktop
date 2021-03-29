@@ -44,6 +44,7 @@ namespace Pomodoro
             
             temporizador.SetFunc(TiempoCumplido);
 
+
             //Seteo de propiedades del temporizador grafico
             TemporizadorGrafico = new TemporizadorGrafico();
 
@@ -71,6 +72,10 @@ namespace Pomodoro
                     if (bloque.MinutosProductivos > 60) { TemporizadorGrafico.Hora = (int)Math.Floor((decimal)(bloque.MinutosProductivos / 60)); }
                     TemporizadorGrafico.Minuto = bloque.MinutosProductivos % 60;
 
+                    temporizador.Segundos = 0;
+                    temporizador.Minutos = bloque.MinutosProductivos;
+                    temporizador.Horas = 0;
+
                     temporizador.Start();
                     this.Dispatcher.Invoke(TemporizadorGrafico.StartTemporizador);
 
@@ -85,8 +90,13 @@ namespace Pomodoro
                 if (bloque.MinutosDescanso > 60) { TemporizadorGrafico.Hora = (int)Math.Floor((decimal)(bloque.MinutosDescanso / 60)); }
                 TemporizadorGrafico.Minuto = bloque.MinutosDescanso % 60;
 
+                temporizador.Segundos = 0;
+                temporizador.Minutos = bloque.MinutosDescanso;
+                temporizador.Horas = 0;
+
                 temporizador.Start();
                 this.Dispatcher.Invoke(TemporizadorGrafico.StartTemporizador);
+
                 bloque.EstadoBloque = (int)Clases.Estado.Descanso;
                 this.Dispatcher.Invoke(ActualizarLabelEstado);
             }
@@ -115,7 +125,7 @@ namespace Pomodoro
         }
 
 
-            //-----------------Eventos ui-------------------//
+         //-----------------Eventos ui-------------------//
 
 
         //Inicia los temporizadores con los valores introducidos en los campos de texto.
@@ -123,7 +133,7 @@ namespace Pomodoro
         private void Comenzar_click(object sender, RoutedEventArgs e)
         {
             bloque.ResetBloque();
-            if (temporizador.timer.Enabled) { temporizador.Stop(); }
+            if (temporizador.Enabled()) { temporizador.Stop(); }
             if (TemporizadorGrafico.IsEnabled()) { TemporizadorGrafico.StopTemporizador(); }
             
             bloque.MinutosProductivos = Int32.Parse(TiempoProductivomTextBox.Text);
@@ -159,6 +169,7 @@ namespace Pomodoro
 
             (sender as Button).IsEnabled = false;
             (sender as Button).Visibility = Visibility.Hidden;
+
             temporizador.Start();
             TemporizadorGrafico.StartTemporizador();
             bloque.EstadoBloque = (int)Clases.Estado.Productivo;
@@ -238,7 +249,7 @@ namespace Pomodoro
 
         private void Pausa_Click(object sender, RoutedEventArgs e)
         {
-            if(temporizador.timer.Enabled && TemporizadorGrafico.IsEnabled())
+            if(temporizador.Enabled() && TemporizadorGrafico.IsEnabled())
             {
                 temporizador.Stop();
                 TemporizadorGrafico.StopTemporizador();
@@ -247,12 +258,15 @@ namespace Pomodoro
                 bloque.EstadoBloque = (int)Clases.Estado.Pausa;
                 Dispatcher.Invoke(ActualizarLabelEstado);
             }
-            else if (!temporizador.timer.Enabled && !TemporizadorGrafico.IsEnabled())
+            else if (!temporizador.Enabled() && !TemporizadorGrafico.IsEnabled())
             {       
                 PausaContBtn.Content = "Pausa";
 
                 //TODO : Arreglar la reaudacion de la pausa
-                temporizador.Minutos = TemporizadorGrafico.Hora * 60 + TemporizadorGrafico.Minuto + TemporizadorGrafico.Segundo/100;
+                temporizador.Segundos = TemporizadorGrafico.Segundo;
+                temporizador.Minutos = TemporizadorGrafico.Minuto;
+                temporizador.Horas = TemporizadorGrafico.Hora;
+
                 temporizador.Start();
 
                 TemporizadorGrafico.Reanudar();
@@ -274,7 +288,7 @@ namespace Pomodoro
 
         private void Detener_Click(object sender, RoutedEventArgs e)
         {
-            if (temporizador.timer.Enabled && TemporizadorGrafico.IsEnabled())
+            if (temporizador.Enabled() && TemporizadorGrafico.IsEnabled())
             {
                 temporizador.Stop();
                 TemporizadorGrafico.StopTemporizador();
