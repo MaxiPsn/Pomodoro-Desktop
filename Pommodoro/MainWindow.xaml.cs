@@ -96,7 +96,7 @@ namespace Pomodoro
         private void Comenzar_click(object sender, RoutedEventArgs e)
         {
             bloque.ResetBloque();
-            if (temporizador.timer.Enabled) { temporizador.Stop(); }
+            if (temporizador.Enabled()) { temporizador.Stop(); }
             if (TemporizadorGrafico.IsEnabled()) { TemporizadorGrafico.StopTemporizador(); }
             
             bloque.MinutosProductivos = Int32.Parse(TiempoProductivohTextBox.Text) * 60 + Int32.Parse(TiempoProductivomTextBox.Text);

@@ -7,18 +7,36 @@ namespace Pomodoro.Clases
 {
     public class Temporizador
     {
-        private long ticks;
-        public Timer timer { get; }
+        private long ticks;//Setter transforma el valor introducido en su valor en ticks (1s = 1000ticks, 1min = 60000ticks, 1h = 3600000)
+        private Timer timer { get; }
 
-        public long Minutos//Setter transforma el valor introducido en minutos en el valor en ticks (1s = 1000ticks, 1min = 60000ticks)
+        public int Segundos
         {
-            get { return ticks; } 
-            set
-            {
-                ticks = value * 60000;
+            get { return Segundos; }
+            set 
+            { 
+                if(value >= 0) { Segundos = value; }
+                else { throw new ArgumentOutOfRangeException("Solo se admiten valores mayores a 0"); }
             }
         }
-
+        public int Minutos
+        {
+            get { return Minutos; }
+            set
+            {
+                if (value >= 0) { Minutos = value; }
+                else { throw new ArgumentOutOfRangeException("Solo se admiten valores mayores a 0"); }
+            }
+        }
+        public int Horas
+        {
+            get { return Horas; }
+            set
+            {
+                if (value >= 0) { Horas = value; }
+                else { throw new ArgumentOutOfRangeException("Solo se admiten valores mayores a 0"); }
+            }
+        }
         //Constructor
         public Temporizador()
         {
@@ -30,6 +48,7 @@ namespace Pomodoro.Clases
 
         public void Start()
         {
+            ticks = SetTicks();
             timer.Interval = ticks;
             timer.Enabled = true;
         }
@@ -44,5 +63,9 @@ namespace Pomodoro.Clases
             timer.Elapsed += (s, e) => { method?.Invoke(); };
         }
 
+        private long SetTicks()
+        {
+            return Horas * 3600000 + Minutos * 60000 + Segundos * 1000;
+        }
     }
 }
