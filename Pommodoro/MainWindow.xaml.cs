@@ -36,7 +36,7 @@ namespace Pomodoro
             bloque = new BloquesTiempo();
 
             bloque.EstadoBloque = (int)Clases.Estado.Espera;
-            this.Dispatcher.Invoke(ActualizarLabelEstado);
+            
 
             //Seteo inicial del temporizador principal
             ModoAutomatico = true;
@@ -53,7 +53,7 @@ namespace Pomodoro
             TemporizadorGrafico.TextBoxSegundo = Segundos;
 
             Contador.DataContext = bloque;
-
+            this.Dispatcher.Invoke(ActualizarLabelEstado);
         }
 
         private void TiempoCumplido()
@@ -117,9 +117,11 @@ namespace Pomodoro
                     break;
                 case (int)Clases.Estado.Pausa:
                     Estado.Content = "En pausa";
+                    Estado.Foreground = this.Resources["Estado_pausa"] as SolidColorBrush;
                     break;
                 case (int)Clases.Estado.Espera:
-                    Estado.Content = "";
+                    Estado.Content = "En espera";
+                    Estado.Foreground = this.Resources["Estado_espera"] as SolidColorBrush;
                     break;
             }
         }
@@ -172,6 +174,7 @@ namespace Pomodoro
 
             temporizador.Start();
             TemporizadorGrafico.StartTemporizador();
+                
             bloque.EstadoBloque = (int)Clases.Estado.Productivo;
             this.Dispatcher.Invoke(ActualizarLabelEstado);
 
@@ -180,6 +183,9 @@ namespace Pomodoro
 
             DetenerBtn.IsEnabled = true;
             DetenerBtn.Visibility = Visibility.Visible;
+
+            TiempoProductivomTextBox.IsEnabled = false;
+            TiempoDescansomTextBox.IsEnabled = false;
         }
 
         private void RadioButton_Click(object sender, RoutedEventArgs e)
@@ -292,7 +298,7 @@ namespace Pomodoro
             {
                 temporizador.Stop();
                 TemporizadorGrafico.StopTemporizador();
-
+            }
                 TemporizadorGrafico.TextBoxHora.Text = "00";
                 TemporizadorGrafico.TextBoxMinuto.Text = "00";
                 TemporizadorGrafico.TextBoxSegundo.Text = "00";
@@ -314,7 +320,15 @@ namespace Pomodoro
                 ComenzarBtn.Visibility = Visibility.Visible;
                 ComenzarBtn.IsEnabled = true;
 
+                TiempoProductivomTextBox.IsEnabled = true;
+                TiempoDescansomTextBox.IsEnabled = true;
+            
+            if(!PausaContBtn.Content.Equals("Pausa"))
+            {
+                PausaContBtn.Content = "Pausa";
             }
+
+            
         }
 
     }

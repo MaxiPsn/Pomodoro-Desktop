@@ -9,9 +9,11 @@
     <Window.Resources>
         <SolidColorBrush x:Key="Estado_descanso" Color="#A1C35C" />
         <SolidColorBrush x:Key="Estado_productivo" Color="#6DADB0" />
-        <Style x:Name="BordeRedondeado" TargetType="{x:Type Border}">
+        <SolidColorBrush x:Key="Estado_espera" Color="#A4B02E"/>
+        <SolidColorBrush x:Key="Estado_pausa" Color="#B4352F"/>
+        <!--<Style x:Name="BordeRedondeado" TargetType="{x:Type Border}">
             <Setter Property="CornerRadius" Value="6"/>
-        </Style>
+        </Style>-->
 
     </Window.Resources>
 
@@ -21,12 +23,12 @@
             <ColumnDefinition Width="2*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <Label Name="Estado" Grid.Column="1" Panel.ZIndex="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="10,30,0,0"
+        <Label Name="Estado" Grid.Column="1" Panel.ZIndex="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="15,40,0,0"
                Visibility="Visible" FontSize="25" FontFamily="Yu Gothic UI" FontWeight="DemiBold" Foreground="#6DADB0" ></Label>
         <!--Color descanso: #A1C35C-->
         <!--Color Productivo: #6DADB0-->
 
-        <StackPanel Grid.Column="1" Orientation="Horizontal" Panel.ZIndex="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,80,0,0">
+        <StackPanel Grid.Column="1" Orientation="Horizontal" Panel.ZIndex="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0,0,220">
 
             <TextBlock x:Name="Horas" Foreground="Orange" TextWrapping="Wrap" FontSize="45"
                    Text="00" FontFamily="Impact" FontWeight="Regular" VerticalAlignment="Top"/>
@@ -40,9 +42,7 @@
                    Text="00" FontFamily="Impact" FontWeight="Regular" />
 
         </StackPanel>
-        <Label Panel.ZIndex="1" Grid.Column="1" Name="Contador"  Content="{Binding BloquesCumplidos, Mode=OneWay}" ></Label>
-
-
+        
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
@@ -68,7 +68,7 @@
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="1.5*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Border Grid.Row="1" Background="#4E598D"></Border>
+                <Border Grid.Row="1" Background="#4E598D" CornerRadius="0"></Border>
 
                 <Label Grid.Row="0" Foreground="GhostWhite" FontSize="18" FontWeight="Light" HorizontalAlignment="Center" VerticalAlignment="Center" >Tiempo productivo</Label>
                 <TextBox Grid.Row="1" Name="TiempoProductivomTextBox" Width="50" Height="25" VerticalContentAlignment="Center" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="45,0,0,10"
@@ -79,14 +79,14 @@
                             <Setter Property="CornerRadius" Value="6"/>
                         </Style>
                     </TextBox.Resources>
-                    
+
                 </TextBox>
                 <Image Grid.Row="1" Source="/relojfp.png" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,0,0,13"></Image>
                 <Label Name="PreviewLblTiempoProd" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,50,10" Foreground="#A1A5BA" FontWeight="Bold"></Label>
                 <Label Grid.Row="1" HorizontalAlignment="Left" Foreground="#B3B8D0" VerticalAlignment="Top" Margin="10,0,0,0">Minutos productivos</Label>
                 <Label Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,40,0" Foreground="#B3B8D0">Horas/min</Label>
 
-                <Border Grid.Row="3" Background="#4E598D"></Border>
+                <Border Grid.Row="3" Background="#4E598D" CornerRadius="0"></Border>
 
                 <Label Grid.Row="2" Foreground="GhostWhite" FontSize="18" FontWeight="Light" HorizontalAlignment="Center" VerticalAlignment="Center"  >Tiempo descanso</Label>
                 <Label Grid.Row="3" HorizontalAlignment="Left" Foreground="#B3B8D0" VerticalAlignment="Top" Margin="10,0,0,0" >Minutos de descanso</Label>
@@ -119,10 +119,10 @@
 
             <Button Name="ComenzarBtn" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="40" Width="150" Margin="20,0,20,25" Background="AliceBlue" 
                 Click="Comenzar_click" >Comenzar</Button>
-            
+
             <Button Name="PausaContBtn" Grid.Row="2" Width="100" Height="40" VerticalAlignment="Bottom" Margin="20" HorizontalAlignment="Left" 
                     Click="Pausa_Click" Visibility="Hidden">Pausar</Button>
-            
+
             <Button Name="DetenerBtn" Grid.Row="2" Width="100" Height="40" VerticalAlignment="Bottom" Margin="20" HorizontalAlignment="Right" 
                     Click="Detener_Click" Visibility="Hidden">Detener</Button>
 
@@ -131,12 +131,23 @@
         </Grid>
 
         <Grid Grid.Column="1">
+            
             <Grid.RowDefinitions>
-                <RowDefinition Height="4*"></RowDefinition>
+                <RowDefinition Height="3*"></RowDefinition>
+                <RowDefinition Height="0.5*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
-            </Grid.RowDefinitions>
 
-            <Grid Grid.Row="1" Panel.ZIndex="1">
+            </Grid.RowDefinitions>
+            <Border Grid.Row="1" Background="#191C2C" CornerRadius="0"></Border>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" Panel.ZIndex="1" Margin="10,0" VerticalAlignment="Center">
+                <Label Panel.ZIndex="1" Foreground="GhostWhite" FontWeight="Light" FontSize="15">Bloques completados en esta sesión:</Label>
+
+                <Label Panel.ZIndex="1" Name="Contador" Content="{Binding BloquesCumplidos, Mode=OneWay}"
+                   Foreground="GhostWhite" FontWeight="Light" FontSize="15"></Label>
+            </StackPanel>
+
+
+            <Grid Grid.Row="2" Panel.ZIndex="1">
                 <Button Width="40" Height="40" Margin="30,0,0,0" Background="#59659D" HorizontalAlignment="Left">
                     <Button.Resources>
                         <Style TargetType="Border">
@@ -167,7 +178,7 @@
                     </Button.Resources>
                 </Button>
             </Grid>
-            <Border Grid.Row="1" BorderBrush="Black" BorderThickness="0" CornerRadius="4" Background="#303A66"></Border>
+            <Border Grid.Row="2" BorderBrush="AntiqueWhite" BorderThickness="0" CornerRadius="0" Background="#303A66"></Border>
 
 
         </Grid>
