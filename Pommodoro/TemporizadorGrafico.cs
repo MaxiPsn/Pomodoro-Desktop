@@ -13,12 +13,12 @@ namespace Pomodoro
     public class TemporizadorGrafico
     {
         private DispatcherTimer timer;
-        
+
         private protected TextBlock tbHora;
         private protected TextBlock tbMinuto;
         private protected TextBlock tbSegundo;
         private protected int hora, minuto, segundo;
-        
+
 
         //Propiedades
 
@@ -26,14 +26,14 @@ namespace Pomodoro
         public TextBlock TextBoxMinuto { get { return tbMinuto; } set { tbMinuto = value; } }
         public TextBlock TextBoxSegundo { get { return tbSegundo; } set { tbSegundo = value; } }
 
-        public int Hora 
+        public int Hora
         {
-            get { return hora; } 
-            set 
+            get { return hora; }
+            set
             {
-                if(value >= 0 && value < 100) { hora = value; }
+                if (value >= 0 && value < 100) { hora = value; }
                 else { throw new ArgumentException("El valor introducido debe ser mayor a 0 y menor que 99"); }
-            } 
+            }
         }
 
         public int Minuto
@@ -61,30 +61,35 @@ namespace Pomodoro
         {
             timer = new DispatcherTimer(DispatcherPriority.Normal);
             timer.Tick += Timer_tick;
-            timer.Interval = new TimeSpan(0,0,1);
+            timer.Interval = new TimeSpan(0, 0, 1);
             hora = 0;
             minuto = 0;
             segundo = 0;
-            
+
         }
 
 
         //Metodos privados
-        
+
         public void StartTemporizador()
         {
             SetSegundoTextBoxTxt();
             SetMinutoTextBoxTxt();
             SetHoraTextBoxTxt();
-            
+
             timer.Start();
-            
+
         }
         public void StopTemporizador()
         {
             timer.Stop();
         }
         
+        public void Reanudar()
+        {
+            timer.Start();
+        }
+
         public bool IsEnabled()
         {
             return timer.IsEnabled;

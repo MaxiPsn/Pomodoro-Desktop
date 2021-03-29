@@ -117,8 +117,15 @@
             </StackPanel>
 
 
-            <Button Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="40" Width="150" Margin="20,0,20,25" Background="AliceBlue" 
-                Click="Comenzar_click">Comenzar</Button>
+            <Button Name="ComenzarBtn" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="40" Width="150" Margin="20,0,20,25" Background="AliceBlue" 
+                Click="Comenzar_click" >Comenzar</Button>
+            
+            <Button Name="PausaContBtn" Grid.Row="2" Width="100" Height="40" VerticalAlignment="Bottom" Margin="20" HorizontalAlignment="Left" 
+                    Click="Pausa_Click" Visibility="Hidden">Pausar</Button>
+            
+            <Button Name="DetenerBtn" Grid.Row="2" Width="100" Height="40" VerticalAlignment="Bottom" Margin="20" HorizontalAlignment="Right" 
+                    Click="Detener_Click" Visibility="Hidden">Detener</Button>
+
 
 
         </Grid>

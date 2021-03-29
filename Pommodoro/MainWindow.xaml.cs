@@ -119,6 +119,7 @@ namespace Pomodoro
 
 
         //Inicia los temporizadores con los valores introducidos en los campos de texto.
+
         private void Comenzar_click(object sender, RoutedEventArgs e)
         {
             bloque.ResetBloque();
@@ -157,10 +158,17 @@ namespace Pomodoro
             }
 
             (sender as Button).IsEnabled = false;
+            (sender as Button).Visibility = Visibility.Hidden;
             temporizador.Start();
             TemporizadorGrafico.StartTemporizador();
             bloque.EstadoBloque = (int)Clases.Estado.Productivo;
             this.Dispatcher.Invoke(ActualizarLabelEstado);
+
+            PausaContBtn.IsEnabled = true;
+            PausaContBtn.Visibility = Visibility.Visible;
+
+            DetenerBtn.IsEnabled = true;
+            DetenerBtn.Visibility = Visibility.Visible;
         }
 
         private void RadioButton_Click(object sender, RoutedEventArgs e)
@@ -227,5 +235,73 @@ namespace Pomodoro
 
 
         }
+
+        private void Pausa_Click(object sender, RoutedEventArgs e)
+        {
+            if(temporizador.timer.Enabled && TemporizadorGrafico.IsEnabled())
+            {
+                temporizador.Stop();
+                TemporizadorGrafico.StopTemporizador();
+                PausaContBtn.Content = "Continuar";
+
+                bloque.EstadoBloque = (int)Clases.Estado.Pausa;
+                Dispatcher.Invoke(ActualizarLabelEstado);
+            }
+            else if (!temporizador.timer.Enabled && !TemporizadorGrafico.IsEnabled())
+            {       
+                PausaContBtn.Content = "Pausa";
+
+                //TODO : Arreglar la reaudacion de la pausa
+                temporizador.Minutos = TemporizadorGrafico.Hora * 60 + TemporizadorGrafico.Minuto + TemporizadorGrafico.Segundo/100;
+                temporizador.Start();
+
+                TemporizadorGrafico.Reanudar();
+
+                if (bloque.ProductivoCumplido)
+                {
+                    bloque.EstadoBloque = (int)Clases.Estado.Descanso;
+                }
+                else
+                {
+                    bloque.EstadoBloque = (int)Clases.Estado.Productivo;
+                }
+
+
+                Dispatcher.Invoke(ActualizarLabelEstado);
+            }
+
+        }
+
+        private void Detener_Click(object sender, RoutedEventArgs e)
+        {
+            if (temporizador.timer.Enabled && TemporizadorGrafico.IsEnabled())
+            {
+                temporizador.Stop();
+                TemporizadorGrafico.StopTemporizador();
+
+                TemporizadorGrafico.TextBoxHora.Text = "00";
+                TemporizadorGrafico.TextBoxMinuto.Text = "00";
+                TemporizadorGrafico.TextBoxSegundo.Text = "00";
+
+                TemporizadorGrafico.Hora = 0;
+                TemporizadorGrafico.Minuto = 0;
+                TemporizadorGrafico.Segundo = 0;
+
+                bloque.ResetBloque();
+                bloque.EstadoBloque = (int)Clases.Estado.Espera;
+                this.Dispatcher.Invoke(ActualizarLabelEstado);
+
+                PausaContBtn.IsEnabled = false;
+                DetenerBtn.IsEnabled = false;
+
+                PausaContBtn.Visibility = Visibility.Hidden;
+                DetenerBtn.Visibility = Visibility.Hidden;
+
+                ComenzarBtn.Visibility = Visibility.Visible;
+                ComenzarBtn.IsEnabled = true;
+
+            }
+        }
+
     }
 }
