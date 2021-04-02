@@ -180,6 +180,7 @@ namespace Pomodoro
 
             PausaContBtn.IsEnabled = true;
             PausaContBtn.Visibility = Visibility.Visible;
+            PausaContBtn.ToolTip = "Pausar el contador";
 
             DetenerBtn.IsEnabled = true;
             DetenerBtn.Visibility = Visibility.Visible;
@@ -260,6 +261,7 @@ namespace Pomodoro
                 temporizador.Stop();
                 TemporizadorGrafico.StopTemporizador();
                 PausaContBtn.Content = "Continuar";
+                PausaContBtn.ToolTip = "Reanudar el contador";
 
                 bloque.EstadoBloque = (int)Clases.Estado.Pausa;
                 Dispatcher.Invoke(ActualizarLabelEstado);
@@ -267,8 +269,8 @@ namespace Pomodoro
             else if (!temporizador.Enabled() && !TemporizadorGrafico.IsEnabled())
             {       
                 PausaContBtn.Content = "Pausa";
+                PausaContBtn.ToolTip = "Reanudar el contador";
 
-                //TODO : Arreglar la reaudacion de la pausa
                 temporizador.Segundos = TemporizadorGrafico.Segundo;
                 temporizador.Minutos = TemporizadorGrafico.Minuto;
                 temporizador.Horas = TemporizadorGrafico.Hora;
