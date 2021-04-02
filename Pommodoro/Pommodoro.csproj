@@ -17,8 +17,4 @@
     </Resource>
   </ItemGroup>
 
-  <ItemGroup>
-    <Resource Include="relojfp.png" />
-  </ItemGroup>
-
 </Project>

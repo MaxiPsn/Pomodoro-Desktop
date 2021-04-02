@@ -69,7 +69,7 @@
                 <Border Grid.Row="1" Background="#4E598D" CornerRadius="0"></Border>
 
                 <Label Grid.Row="0" Foreground="GhostWhite" FontSize="18" FontWeight="Light" HorizontalAlignment="Center" VerticalAlignment="Center" >Tiempo productivo</Label>
-                <TextBox Grid.Row="1" Name="TiempoProductivomTextBox" Width="50" Height="25" VerticalContentAlignment="Center" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="45,0,0,10"
+                <TextBox Grid.Row="1" Name="TiempoProductivomTextBox" Width="50" Height="25" VerticalContentAlignment="Center" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="48,0,0,10"
                          HorizontalContentAlignment="Center" Foreground="WhiteSmoke"  MaxLength="4" Background="#3D487C" BorderBrush="#101A47" 
                          ToolTip="Tiempo en minutos que va a usar como tiempo productivo (solo admite numeros)."
                          PreviewTextInput="TextBoxPreviewInput" KeyUp="TextBoxTiempo_KeyUp">
@@ -93,7 +93,7 @@
                 <Label Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,40,0" Foreground="#B3B8D0">Horas/min</Label>
                 <Image Grid.Row="3" Source="{DynamicResource Reloj}" Width="25" Height="26" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15,0,0,10"></Image>
 
-                <TextBox Grid.Row="3" Name="TiempoDescansomTextBox" Width="50" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="45,0,0,10" 
+                <TextBox Grid.Row="3" Name="TiempoDescansomTextBox" Width="50" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="48,0,0,10" 
                      VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="WhiteSmoke" PreviewTextInput="TextBoxPreviewInput" MaxLength="4" 
                      ToolTip="Tiempo en minutos que va a usar como tiempo de descanso (solo admite numeros)."
                      Background="#3D487C" BorderBrush="#101A47" KeyUp="TextBoxTiempo_KeyUp">
@@ -131,9 +131,6 @@
             <Button Name="DetenerBtn" Grid.Row="2" Width="100" Height="40" VerticalAlignment="Bottom" Margin="20" HorizontalAlignment="Right"
                     ToolTip="Detener contador y volver a configurarlo."
                     Click="Detener_Click" Visibility="Hidden">Detener</Button>
-
-
-
         </Grid>
 
         <Grid Grid.Column="1">
@@ -151,38 +148,41 @@
                 <Label Panel.ZIndex="1" Name="Contador" Content="{Binding BloquesCumplidos, Mode=OneWay}"
                    Foreground="GhostWhite" FontWeight="Light" FontSize="15"></Label>
             </StackPanel>
-
+            <Button Name="BotonAyuda" Grid.Row="0" Width="30" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="15" Background="AntiqueWhite"
+                    ToolTip="Ayuda">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="25"/>
+                    </Style>
+                </Button.Resources>
+                ?</Button>
 
             <Grid Grid.Row="2" Panel.ZIndex="1">
-                <Button Width="50" Height="50" Margin="30,0,0,0" Background="#59659D" HorizontalAlignment="Left">
+                <Button Width="45" Height="45" Margin="30,0,0,0" Background="#59659D" HorizontalAlignment="Left"
+                        ToolTip="Ver estadisticas">
                     <Button.Resources>
                         <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="25"/>
+                            <Setter Property="CornerRadius" Value="24"/>
                         </Style>
                     </Button.Resources>
-                    <Image Source="relojfp.png" />
+                    Estadistic
                 </Button>
-                <Button Width="50" Height="50" HorizontalAlignment="Left" Margin="110,0,0,0"  Background="#59659D">
+                <Button Width="45" Height="45" HorizontalAlignment="Left" Margin="110,0,0,0"  Background="#59659D"
+                        ToolTip="Menu de usuarios">
                     <Button.Resources>
                         <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="25"/>
+                            <Setter Property="CornerRadius" Value="24"/>
                         </Style>
-                    </Button.Resources>
-                </Button>
-                <Button Grid.Row="1" Width="50" Height="50" HorizontalAlignment="Left" Margin="190,0,0,0"  Background="#59659D">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="25"/>
-                        </Style>
-                    </Button.Resources>
+                    </Button.Resources>Usuario
                 </Button>
 
-                <Button Grid.Row="1" Width="50" Height="50" Margin="0,0,50,0"  Background="#59659D" HorizontalAlignment="Right">
+                <Button Name="BotonConfiguracion" Grid.Row="1" Width="45" Height="45" Margin="0,0,30,0"  Background="#59659D" HorizontalAlignment="Right"
+                        ToolTip="Configuracion">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="25"/>
                         </Style>
-                    </Button.Resources>
+                    </Button.Resources>Config
                 </Button>
             </Grid>
             <Border Grid.Row="2" BorderBrush="AntiqueWhite" BorderThickness="0" CornerRadius="0" Background="#303A66"></Border>
