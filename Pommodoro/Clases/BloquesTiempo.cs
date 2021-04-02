@@ -8,16 +8,26 @@ namespace Pomodoro.Clases
     enum Estado {Espera,Productivo,Descanso,Pausa};
 
     ///Contiene los pares de tiempo productivo y de descanso, un contador de bloques terminados y las acciones a realizar.
-    public class BloquesTiempo
+    public class BloquesTiempo : INotifyPropertyChanged
     {
 
-        public static int BloquesCumplidos;
+        private static int bloquesCumplidos;
         private int tiempoProductivo;
         private int tiempoDescanso;
         private int estado;
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         //Propiedades
 
+        public int BloquesCumplidos {
+            get { return bloquesCumplidos; } 
+            protected set 
+            { 
+                bloquesCumplidos = value;
+                OnPropertyChange();
+            } 
+        }
         public bool ProductivoCumplido { get; set; }
         public bool DescansoCumplido { get; set; }
         public int MinutosProductivos
@@ -57,6 +67,7 @@ namespace Pomodoro.Clases
             DescansoCumplido = false;
             MinutosProductivos = 30;
             MinutosDescanso = 10;
+            BloquesCumplidos = 0;
         }
 
         public BloquesTiempo(int tiempoProductivo, int tiempoDescanso)
@@ -85,6 +96,14 @@ namespace Pomodoro.Clases
         {
             ProductivoCumplido = false;
             DescansoCumplido = false;
+        }
+
+        private void OnPropertyChange(string propertyname = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
+            }
         }
 
     }
