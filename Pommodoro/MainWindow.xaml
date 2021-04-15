@@ -13,6 +13,7 @@
         <SolidColorBrush x:Key="Estado_pausa" Color="#B4352F"/>
 
         <BitmapImage x:Key="Reloj" UriSource="./imagenes/relojfp.png" />
+        <BitmapImage x:Key="SignoPregunta" UriSource="./imagenes/signopregunta.png" />
     </Window.Resources>
 
     <Grid>
@@ -69,9 +70,12 @@
                 <Border Grid.Row="1" Background="#4E598D" CornerRadius="0"></Border>
 
                 <Label Grid.Row="0" Foreground="GhostWhite" FontSize="18" FontWeight="Light" HorizontalAlignment="Center" VerticalAlignment="Center" >Tiempo productivo</Label>
+                <Label Name="ErrorProd" Grid.Row="1" Visibility="Hidden" Content="Valor no valido" Foreground="OrangeRed" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,22,27,0"/>
+                
                 <TextBox Grid.Row="1" Name="TiempoProductivomTextBox" Width="50" Height="25" VerticalContentAlignment="Center" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="48,0,0,10"
                          HorizontalContentAlignment="Center" Foreground="WhiteSmoke"  MaxLength="4" Background="#3D487C" BorderBrush="#101A47" 
-                         ToolTip="Tiempo en minutos que va a usar como tiempo productivo (solo admite numeros)."
+                         ToolTip="Tiempo en minutos que va a usar como tiempo productivo (solo admite numeros)." CommandManager.PreviewExecuted="textBox_PreviewExecuted"
+                         ContextMenu="{x:Null}"
                          PreviewTextInput="TextBoxPreviewInput" KeyUp="TextBoxTiempo_KeyUp">
                     <TextBox.Resources>
                         <Style TargetType="{x:Type Border}">
@@ -80,22 +84,29 @@
                     </TextBox.Resources>
 
                 </TextBox>
+
+
                 <Image Grid.Row="1" Source="{DynamicResource Reloj}" Width="25" Height="26" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15,0,0,10"></Image>
                 <Label Name="PreviewLblTiempoProd" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,50,10" Foreground="#A1A5BA" FontWeight="Bold"></Label>
                 <Label Grid.Row="1" HorizontalAlignment="Left" Foreground="#B3B8D0" VerticalAlignment="Top" Margin="10,0,0,0">Minutos productivos</Label>
                 <Label Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,40,0" Foreground="#B3B8D0">Horas/min</Label>
 
-                <Border Grid.Row="3" Background="#4E598D" CornerRadius="0"></Border>
+                <Border Grid.Row="3" Background="#4E598D" CornerRadius="0">
+
+
+                </Border>
 
                 <Label Grid.Row="2" Foreground="GhostWhite" FontSize="18" FontWeight="Light" HorizontalAlignment="Center" VerticalAlignment="Center"  >Tiempo descanso</Label>
                 <Label Grid.Row="3" HorizontalAlignment="Left" Foreground="#B3B8D0" VerticalAlignment="Top" Margin="10,0,0,0" >Minutos de descanso</Label>
 
                 <Label Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,40,0" Foreground="#B3B8D0">Horas/min</Label>
                 <Image Grid.Row="3" Source="{DynamicResource Reloj}" Width="25" Height="26" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15,0,0,10"></Image>
+                <Label Name="ErrorDesc" Visibility="Hidden" Grid.Row="3" Content="Valor no valido" Foreground="OrangeRed" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,22,27,0"/>
 
                 <TextBox Grid.Row="3" Name="TiempoDescansomTextBox" Width="50" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="48,0,0,10" 
                      VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="WhiteSmoke" PreviewTextInput="TextBoxPreviewInput" MaxLength="4" 
-                     ToolTip="Tiempo en minutos que va a usar como tiempo de descanso (solo admite numeros)."
+                     ToolTip="Tiempo en minutos que va a usar como tiempo de descanso (solo admite numeros)." CommandManager.PreviewExecuted="textBox_PreviewExecuted"
+                     ContextMenu="{x:Null}"
                      Background="#3D487C" BorderBrush="#101A47" KeyUp="TextBoxTiempo_KeyUp">
                     <TextBox.Resources>
                         <Style TargetType="{x:Type Border}">
@@ -138,7 +149,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="3*"></RowDefinition>
                 <RowDefinition Height="0.5*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="0.8*"></RowDefinition>
 
             </Grid.RowDefinitions>
             <Border Grid.Row="1" Background="#191C2C" CornerRadius="0"></Border>
@@ -155,7 +166,8 @@
                         <Setter Property="CornerRadius" Value="25"/>
                     </Style>
                 </Button.Resources>
-                ?</Button>
+                <Image Margin="1,0,0.5,0"  Source="{StaticResource SignoPregunta}"></Image>
+            </Button>
 
             <Grid Grid.Row="2" Panel.ZIndex="1">
                 <Button Width="45" Height="45" Margin="30,0,0,0" Background="#59659D" HorizontalAlignment="Left"
@@ -173,7 +185,7 @@
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="24"/>
                         </Style>
-                    </Button.Resources>Usuario
+                    </Button.Resources> Usuario
                 </Button>
 
                 <Button Name="BotonConfiguracion" Grid.Row="1" Width="45" Height="45" Margin="0,0,30,0"  Background="#59659D" HorizontalAlignment="Right"
@@ -182,7 +194,7 @@
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="25"/>
                         </Style>
-                    </Button.Resources>Config
+                    </Button.Resources> Config
                 </Button>
             </Grid>
             <Border Grid.Row="2" BorderBrush="AntiqueWhite" BorderThickness="0" CornerRadius="0" Background="#303A66"></Border>

@@ -8,7 +8,14 @@
 
   <ItemGroup>
     <None Remove="imagenes\relojfp.png" />
+    <None Remove="imagenes\signopregunta.png" />
     <None Remove="relojfp.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="imagenes\signopregunta.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

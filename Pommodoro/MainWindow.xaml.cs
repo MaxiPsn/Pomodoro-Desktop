@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using Pomodoro.Clases;
+using System.Text.RegularExpressions;
 
 namespace Pomodoro
 {
@@ -126,67 +127,97 @@ namespace Pomodoro
             }
         }
 
+        private bool EsValido(string input)
+        {
+            Regex regex = new Regex(@"^\d{1,4}");
 
-         //-----------------Eventos ui-------------------//
+            if (regex.IsMatch(input))
+            {
+                if (Int32.Parse(input) != 0)
+                    return true;
+            }
+
+            return false;
+        }
+
+        //-----------------Eventos ui-------------------//
 
 
         //Inicia los temporizadores con los valores introducidos en los campos de texto.
 
         private void Comenzar_click(object sender, RoutedEventArgs e)
         {
+            bool tiempoProductivoValido = EsValido(TiempoProductivomTextBox.Text);
+            bool tiempoDescansoValido = EsValido(TiempoDescansomTextBox.Text);
             bloque.ResetBloque();
             if (temporizador.Enabled()) { temporizador.Stop(); }
             if (TemporizadorGrafico.IsEnabled()) { TemporizadorGrafico.StopTemporizador(); }
-            
-            bloque.MinutosProductivos = Int32.Parse(TiempoProductivomTextBox.Text);
-           
-            bloque.MinutosDescanso = Int32.Parse(TiempoDescansomTextBox.Text);
-            
 
-            //Setup hora temporizador grafico
-            if (!bloque.ProductivoCumplido)
+            if(tiempoProductivoValido && tiempoDescansoValido)
             {
-                if (bloque.MinutosProductivos >= 60) { TemporizadorGrafico.Hora = (int)Math.Floor((decimal)(bloque.MinutosProductivos / 60)); }
-                else { TemporizadorGrafico.Hora = 0; }
+                bloque.MinutosProductivos = Int32.Parse(TiempoProductivomTextBox.Text);
+                bloque.MinutosDescanso = Int32.Parse(TiempoDescansomTextBox.Text);
 
-                TemporizadorGrafico.Minuto = bloque.MinutosProductivos % 60;
-            }
-            else
-            {
-                if (bloque.MinutosDescanso >= 60) { TemporizadorGrafico.Hora = (int)Math.Floor((decimal)(bloque.MinutosDescanso / 60)); }
-                else { TemporizadorGrafico.Hora = 0; }
+                //Setup hora temporizador grafico
+                if (!bloque.ProductivoCumplido)
+                {
+                    if (bloque.MinutosProductivos >= 60) { TemporizadorGrafico.Hora = (int)Math.Floor((decimal)(bloque.MinutosProductivos / 60)); }
+                    else { TemporizadorGrafico.Hora = 0; }
 
-                TemporizadorGrafico.Minuto = bloque.MinutosDescanso % 60;
-            }
+                    TemporizadorGrafico.Minuto = bloque.MinutosProductivos % 60;
+                }
+                else
+                {
+                    if (bloque.MinutosDescanso >= 60) { TemporizadorGrafico.Hora = (int)Math.Floor((decimal)(bloque.MinutosDescanso / 60)); }
+                    else { TemporizadorGrafico.Hora = 0; }
 
-            //Setup temporizador
-            if(!bloque.ProductivoCumplido)
-            {
-                temporizador.Minutos = bloque.MinutosProductivos;
-            }
-            else
-            {
-                temporizador.Minutos = bloque.MinutosDescanso;
-            }
+                    TemporizadorGrafico.Minuto = bloque.MinutosDescanso % 60;
+                }
+
+                //Setup temporizador
+                if (!bloque.ProductivoCumplido)
+                {
+                    temporizador.Minutos = bloque.MinutosProductivos;
+                }
+                else
+                {
+                    temporizador.Minutos = bloque.MinutosDescanso;
+                }
 
             (sender as Button).IsEnabled = false;
-            (sender as Button).Visibility = Visibility.Hidden;
+                (sender as Button).Visibility = Visibility.Hidden;
 
-            temporizador.Start();
-            TemporizadorGrafico.StartTemporizador();
-                
-            bloque.EstadoBloque = (int)Clases.Estado.Productivo;
-            this.Dispatcher.Invoke(ActualizarLabelEstado);
+                temporizador.Start();
+                TemporizadorGrafico.StartTemporizador();
 
-            PausaContBtn.IsEnabled = true;
-            PausaContBtn.Visibility = Visibility.Visible;
-            PausaContBtn.ToolTip = "Pausar el contador";
+                bloque.EstadoBloque = (int)Clases.Estado.Productivo;
+                this.Dispatcher.Invoke(ActualizarLabelEstado);
 
-            DetenerBtn.IsEnabled = true;
-            DetenerBtn.Visibility = Visibility.Visible;
+                PausaContBtn.IsEnabled = true;
+                PausaContBtn.Visibility = Visibility.Visible;
+                PausaContBtn.ToolTip = "Pausar el contador";
 
-            TiempoProductivomTextBox.IsEnabled = false;
-            TiempoDescansomTextBox.IsEnabled = false;
+                DetenerBtn.IsEnabled = true;
+                DetenerBtn.Visibility = Visibility.Visible;
+
+                TiempoProductivomTextBox.IsEnabled = false;
+                TiempoDescansomTextBox.IsEnabled = false;
+
+            }
+            else
+            {
+                if(!tiempoProductivoValido)
+                {
+                    ErrorProd.Visibility = Visibility.Visible;
+                    PreviewLblTiempoProd.Content = "";
+                }
+                if(!tiempoDescansoValido)
+                {
+                    ErrorDesc.Visibility = Visibility.Visible;
+                    PreviewLblTiempoDesc.Content = "";
+                }
+            }
+
         }
 
         private void RadioButton_Click(object sender, RoutedEventArgs e)
@@ -214,6 +245,8 @@ namespace Pomodoro
         //Actualiza los labels que previsualizan el ajuste de tiempo de los textbox de input para descanso y productivo. 
         private void TextBoxTiempo_KeyUp(object sender, KeyEventArgs e)
         {
+            if (ErrorProd.Visibility == Visibility.Visible) ErrorProd.Visibility = Visibility.Hidden;
+            if (ErrorDesc.Visibility == Visibility.Visible) ErrorDesc.Visibility = Visibility.Hidden;
             TextBox tx = sender as TextBox;
 
             if(tx.Text.Length == 0)
@@ -230,6 +263,8 @@ namespace Pomodoro
             }
             else
             {
+
+
                 int mins = Int32.Parse(tx.Text);
                 string contenido = "";
                 int h = (int)Math.Floor((decimal)(mins / 60));
@@ -332,6 +367,17 @@ namespace Pomodoro
 
             
         }
+
+        private void textBox_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (e.Command == ApplicationCommands.Cut ||
+                e.Command == ApplicationCommands.Paste)
+            {
+                e.Handled = true;
+            }
+        }
+
+
 
     }
 }
