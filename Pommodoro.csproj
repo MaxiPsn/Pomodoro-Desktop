@@ -4,24 +4,31 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="favicon.ico" />
     <None Remove="imagenes\relojfp.png" />
     <None Remove="imagenes\signopregunta.png" />
     <None Remove="relojfp.png" />
+    <None Remove="sonidos\noti.mp3" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="imagenes\signopregunta.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <Resource Include="favicon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="imagenes\signopregunta.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="imagenes\relojfp.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <EmbeddedResource Include="sonidos\noti.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

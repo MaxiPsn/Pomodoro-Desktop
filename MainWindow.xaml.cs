@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using Pomodoro.Clases;
+using Pomodoro.Modelos;
 using System.Text.RegularExpressions;
 
 namespace Pomodoro
@@ -27,6 +28,7 @@ namespace Pomodoro
         BloquesTiempo bloque;
         Temporizador temporizador;
         TemporizadorGrafico TemporizadorGrafico;
+        private MediaPlayer media;
 
         bool ModoAutomatico { get; set; }
 
@@ -34,9 +36,12 @@ namespace Pomodoro
         {
             InitializeComponent();
 
+            media = new MediaPlayer();
+            media.Open(new Uri(@".\sonidos\noti.mp3", UriKind.RelativeOrAbsolute));
+
             bloque = new BloquesTiempo();
 
-            bloque.EstadoBloque = (int)Clases.Estado.Espera;
+            bloque.EstadoBloque = (int)Modelos.Estado.Espera;
             
 
             //Seteo inicial del temporizador principal
@@ -60,6 +65,8 @@ namespace Pomodoro
         private void TiempoCumplido()
         {
             bloque.TiempoCumplido();
+            this.Dispatcher.Invoke(ReproducirAlerta);
+            
 
             //Si se cumplio el bloque completo (propiedades ProductivoCumplido y DescansoCumplido = true) y modo auto = true, se reinicia el temporizador
             if (bloque.ProductivoCumplido && bloque.DescansoCumplido) 
@@ -80,7 +87,7 @@ namespace Pomodoro
                     temporizador.Start();
                     this.Dispatcher.Invoke(TemporizadorGrafico.StartTemporizador);
 
-                    bloque.EstadoBloque = (int)Clases.Estado.Productivo;
+                    bloque.EstadoBloque = (int)Modelos.Estado.Productivo;
                     this.Dispatcher.Invoke(ActualizarLabelEstado);
                 }
             }
@@ -98,29 +105,36 @@ namespace Pomodoro
                 temporizador.Start();
                 this.Dispatcher.Invoke(TemporizadorGrafico.StartTemporizador);
 
-                bloque.EstadoBloque = (int)Clases.Estado.Descanso;
+                bloque.EstadoBloque = (int)Modelos.Estado.Descanso;
                 this.Dispatcher.Invoke(ActualizarLabelEstado);
             }
 
+        }
+
+        private void ReproducirAlerta()
+        {
+            media.Stop();
+            media.Play();
+            
         }
 
         private void ActualizarLabelEstado()
         {
             switch (bloque.EstadoBloque)
             {
-                case (int)Clases.Estado.Productivo:
+                case (int)Modelos.Estado.Productivo:
                     Estado.Content = "Tiempo productivo";
                     Estado.Foreground = this.Resources["Estado_productivo"] as SolidColorBrush;
                     break;
-                case (int)Clases.Estado.Descanso:
+                case (int)Modelos.Estado.Descanso:
                     Estado.Content = "Tiempo de descanso";
                     Estado.Foreground = this.Resources["Estado_descanso"] as SolidColorBrush;
                     break;
-                case (int)Clases.Estado.Pausa:
+                case (int)Modelos.Estado.Pausa:
                     Estado.Content = "En pausa";
                     Estado.Foreground = this.Resources["Estado_pausa"] as SolidColorBrush;
                     break;
-                case (int)Clases.Estado.Espera:
+                case (int)Modelos.Estado.Espera:
                     Estado.Content = "En espera";
                     Estado.Foreground = this.Resources["Estado_espera"] as SolidColorBrush;
                     break;
@@ -190,7 +204,7 @@ namespace Pomodoro
                 temporizador.Start();
                 TemporizadorGrafico.StartTemporizador();
 
-                bloque.EstadoBloque = (int)Clases.Estado.Productivo;
+                bloque.EstadoBloque = (int)Modelos.Estado.Productivo;
                 this.Dispatcher.Invoke(ActualizarLabelEstado);
 
                 PausaContBtn.IsEnabled = true;
@@ -298,7 +312,7 @@ namespace Pomodoro
                 PausaContBtn.Content = "Continuar";
                 PausaContBtn.ToolTip = "Reanudar el contador";
 
-                bloque.EstadoBloque = (int)Clases.Estado.Pausa;
+                bloque.EstadoBloque = (int)Modelos.Estado.Pausa;
                 Dispatcher.Invoke(ActualizarLabelEstado);
             }
             else if (!temporizador.Enabled() && !TemporizadorGrafico.IsEnabled())
@@ -316,11 +330,11 @@ namespace Pomodoro
 
                 if (bloque.ProductivoCumplido)
                 {
-                    bloque.EstadoBloque = (int)Clases.Estado.Descanso;
+                    bloque.EstadoBloque = (int)Modelos.Estado.Descanso;
                 }
                 else
                 {
-                    bloque.EstadoBloque = (int)Clases.Estado.Productivo;
+                    bloque.EstadoBloque = (int)Modelos.Estado.Productivo;
                 }
 
 
@@ -345,7 +359,7 @@ namespace Pomodoro
                 TemporizadorGrafico.Segundo = 0;
 
                 bloque.ResetBloque();
-                bloque.EstadoBloque = (int)Clases.Estado.Espera;
+                bloque.EstadoBloque = (int)Modelos.Estado.Espera;
                 this.Dispatcher.Invoke(ActualizarLabelEstado);
 
                 PausaContBtn.IsEnabled = false;
